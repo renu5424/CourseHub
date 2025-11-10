@@ -1,0 +1,16 @@
+run:
+  build: npm run build
+  start: npm run start
+env:
+  - variable: NEXT_PUBLIC_FIREBASE_API_KEY
+    value: AIzaSyB2LsLBTPOA48AtIkKv0ydImPYEb4ILVWw
+  - variable: NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
+    value: studio-7531544703-c1dce.firebaseapp.com
+  - variable: NEXT_PUBLIC_FIREBASE_PROJECT_ID
+    value: studio-7531544703-c1dce
+  - variable: NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
+    value: studio-7531544703-c1dce.appspot.com
+  - variable: NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
+    value: '783415329889'
+  - variable: NEXT_PUBLIC_FIREBASE_APP_ID
+    value: 1:783415329889:web:f0f8436db69881ab4cd620

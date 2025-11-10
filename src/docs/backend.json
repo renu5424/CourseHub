@@ -1,0 +1,232 @@
+
+{
+  "entities": {
+    "UserProfile": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "UserProfile",
+      "type": "object",
+      "description": "Represents a user profile in the CourseHub application.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the UserProfile entity."
+        },
+        "role": {
+          "type": "string",
+          "description": "The user's role in the application (e.g., 'Mentor', 'Student')."
+        },
+        "email": {
+          "type": "string",
+          "description": "The user's email address.",
+          "format": "email"
+        },
+        "name": {
+          "type": "string",
+          "description": "The user's full name."
+        }
+      },
+      "required": [
+        "id",
+        "role",
+        "email",
+        "name"
+      ]
+    },
+    "Course": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Course",
+      "type": "object",
+      "description": "Represents a course in the CourseHub application.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Course entity."
+        },
+        "title": {
+          "type": "string",
+          "description": "The title of the course."
+        },
+        "description": {
+          "type": "string",
+          "description": "A description of the course."
+        },
+        "mentorId": {
+          "type": "string",
+          "description": "Reference to UserProfile of the mentor who created the course. (Relationship: UserProfile 1:N Course)"
+        },
+        "category": {
+          "type": "string",
+          "description": "The category of the course.",
+          "enum": ["Programming", "History", "Science", "Art", "Music", "Wellness", "Other"]
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "description",
+        "mentorId",
+        "category"
+      ]
+    },
+    "Lesson": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Lesson",
+      "type": "object",
+      "description": "Represents a lesson within a course.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Lesson entity."
+        },
+        "courseId": {
+          "type": "string",
+          "description": "Reference to the Course this lesson belongs to. (Relationship: Course 1:N Lesson)"
+        },
+        "title": {
+          "type": "string",
+          "description": "The title of the lesson."
+        },
+        "content": {
+          "type": "string",
+          "description": "The content of the lesson (e.g., text, markdown)."
+        },
+        "summary": {
+          "type": "string",
+          "description": "A summary of the lesson."
+        },
+        "exercise": {
+          "type": "string",
+          "description": "A hands-on exercise for the lesson."
+        },
+        "order": {
+          "type": "number",
+          "description": "The order of the lesson within the course."
+        }
+      },
+      "required": [
+        "id",
+        "courseId",
+        "title",
+        "content",
+        "order",
+        "summary",
+        "exercise"
+      ]
+    },
+    "Enrollment": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Enrollment",
+      "type": "object",
+      "description": "Represents a student's enrollment in a course.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Enrollment entity."
+        },
+        "studentId": {
+          "type": "string",
+          "description": "Reference to the UserProfile of the student. (Relationship: UserProfile 1:N Enrollment)"
+        },
+        "courseId": {
+          "type": "string",
+          "description": "Reference to the Course the student is enrolled in. (Relationship: Course 1:N Enrollment)"
+        },
+        "enrollmentDate": {
+          "type": "string",
+          "description": "The date the student enrolled in the course.",
+          "format": "date-time"
+        },
+        "completionDate": {
+          "type": "string",
+          "description": "The date the student completed the course, if applicable.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "studentId",
+        "courseId",
+        "enrollmentDate"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "google.com"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/userProfiles/{userId}",
+        "definition": {
+          "entityName": "UserProfile",
+          "schema": {
+            "$ref": "#/backend/entities/UserProfile"
+          },
+          "description": "Stores user profile information. Uses path-based ownership for private data. The 'role' attribute is stored directly in the user profile document, enabling authorization rules to be based solely on the user's own document, thus eliminating hierarchical authorization dependencies.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/courses/{courseId}",
+        "definition": {
+          "entityName": "Course",
+          "schema": {
+            "$ref": "#/backend/entities/Course"
+          },
+          "description": "Stores course information. Includes the 'mentorId' to easily identify the course creator and owner.",
+          "params": [
+            {
+              "name": "courseId",
+              "description": "The unique identifier for the course."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/courses/{courseId}/lessons/{lessonId}",
+        "definition": {
+          "entityName": "Lesson",
+          "schema": {
+            "$ref": "#/backend/entities/Lesson"
+          },
+          "description": "Stores lessons within a specific course. Includes the 'courseId' to provide the association with its parent course.",
+          "params": [
+            {
+              "name": "courseId",
+              "description": "The unique identifier for the course."
+            },
+            {
+              "name": "lessonId",
+              "description": "The unique identifier for the lesson."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/enrollments/{enrollmentId}",
+        "definition": {
+          "entityName": "Enrollment",
+          "schema": {
+            "$ref": "#/backend/entities/Enrollment"
+          },
+          "description": "Stores enrollment information. Contains both 'studentId' and 'courseId' which provides clear relationships between students and courses.",
+          "params": [
+            {
+              "name": "enrollmentId",
+              "description": "The unique identifier for the enrollment."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore structure is designed to support the CourseHub application's core features, including user profiles, course management, lesson management, and enrollments. The design prioritizes authorization independence, clarity, and scalability, adhering to the specified principles.  \n\n*   **Authorization Independence:** Achieved by storing user roles directly in the `/userProfiles/{userId}` document. This eliminates the need for `get()` calls to determine a user's role during security rule evaluation. Furthermore, for courses, the mentorId is stored directly in the `/courses/{courseId}` document enabling clear ownership rules without needing additional `get()` calls. For lessons, the `courseId` is stored directly within each lesson, ensuring authorization rules can be applied efficiently based on the parent course.\n\n*   **Structural Segregation:** The structure segregates user profiles, courses, lessons, and enrollments into separate collections, each with a homogeneous security posture. This simplifies the security rules and improves maintainability.\n\n*   **Access Modeling:**  User profiles are stored at `/userProfiles/{userId}`, providing private data via path-based ownership. Courses are stored at the root level `/courses/{courseId}` and include the `mentorId` to indicate the course creator. Lessons are stored in a subcollection `/courses/{courseId}/lessons/{lessonId}`, facilitating lesson management under a specific course. Enrollments are stored in the root level `/enrollments/{enrollmentId}` and contain both `studentId` and `courseId` which provides clear relationships between students and courses.\n\n*   **QAPs (Rules Are Not Filters):** The structure supports secure `list` operations for courses and enrollments. For example, mentors can list courses they own (where `mentorId` matches the user ID). Students can list their enrollments (where `studentId` matches the user ID). The segregation of data into separate collections allows for secure querying based on specific authorization criteria.\n\n*   **Invariants:** The structure supports invariants by enforcing ownership (e.g., only the mentor can modify their courses). Timestamps and other metadata can be added to the documents to track creation and modification times. The denormalized authorization context ensures data integrity by replicating access control information directly within relevant documents."
+  }
+}

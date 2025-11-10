@@ -1,0 +1,52 @@
+{
+  "placeholderImages": [
+    {
+      "id": "course-1",
+      "description": "Abstract shapes representing programming concepts",
+      "imageUrl": "https://picsum.photos/seed/programming/600/400",
+      "imageHint": "programming abstract"
+    },
+    {
+      "id": "course-2",
+      "description": "A vintage map for a history course",
+      "imageUrl": "https://picsum.photos/seed/history/600/400",
+      "imageHint": "history map"
+    },
+    {
+      "id": "course-3",
+      "description": "Beakers and scientific equipment",
+      "imageUrl": "https://picsum.photos/seed/science/600/400",
+      "imageHint": "science lab"
+    },
+    {
+      "id": "course-4",
+      "description": "A canvas with paintbrushes for an art course",
+      "imageUrl": "https://picsum.photos/seed/art/600/400",
+      "imageHint": "art canvas"
+    },
+    {
+      "id": "course-5",
+      "description": "Nebula and stars for an astronomy course",
+      "imageUrl": "https://picsum.photos/seed/astronomy/600/400",
+      "imageHint": "space nebula"
+    },
+    {
+      "id": "course-6",
+      "description": "Classic literature books for a literature course",
+      "imageUrl": "https://picsum.photos/seed/literature/600/400",
+      "imageHint": "books library"
+    },
+    {
+      "id": "course-7",
+      "description": "A person meditating for a wellness course",
+      "imageUrl": "https://picsum.photos/seed/wellness/600/400",
+      "imageHint": "meditation yoga"
+    },
+    {
+      "id": "course-8",
+      "description": "Musical notes and instruments",
+      "imageUrl": "https://picsum.photos/seed/music/600/400",
+      "imageHint": "music instruments"
+    }
+  ]
+}

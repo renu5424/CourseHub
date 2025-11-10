@@ -1,0 +1,1 @@
+npm install --save-dev eslint@^8.56.0 eslint-config-next@^14.2.3

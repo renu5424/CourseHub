@@ -1,0 +1,23 @@
+{
+  "name": "coursehub-genkit",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "tsx index.ts"
+  },
+  "dependencies": {
+    "@genkit-ai/flow": "^0.5.17",
+    "@genkit-ai/google-genai": "1.22.0",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "genkit": "1.22.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "genkit-cli": "1.22.0",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.16.2"
+  }
+}
